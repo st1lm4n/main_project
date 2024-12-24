@@ -22,4 +22,3 @@ def get_mask_account(account: Union[int, str]) -> Union[str]:
         return masked_account
     return "Не соответствующее количество символов"
 
-print(get_mask_card_number(7158300734726758))
