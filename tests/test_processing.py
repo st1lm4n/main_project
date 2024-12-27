@@ -1,7 +1,6 @@
 import pytest
 
-from src.processing import filter_by_state, filter_by_date
-from tests.conftest import my_dict
+from src.processing import filter_by_date, filter_by_state
 
 
 def test_filter_by_state(my_dict: list[dict], value_key: str = "EXECUTED") -> None:
@@ -67,4 +66,9 @@ def test_filter_date(my_dict, reverse_, expected):
 
 
 def test_filter_by_date_same(same_my_dict):
-    assert filter_by_date(same_my_dict, True) == [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 939719570, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 594226727, 'state': 'CANCELED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 615064591, 'state': 'CANCELED', 'date': '2019-07-03T18:35:29.512364'}]
+    assert filter_by_date(same_my_dict, True) == [
+        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+        {"id": 939719570, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+        {"id": 594226727, "state": "CANCELED", "date": "2019-07-03T18:35:29.512364"},
+        {"id": 615064591, "state": "CANCELED", "date": "2019-07-03T18:35:29.512364"},
+    ]

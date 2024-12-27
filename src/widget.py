@@ -1,6 +1,6 @@
 from typing import Union
 
-from src.masks import get_mask_card_number, get_mask_account
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(card_number: Union[str]) -> str:
@@ -17,6 +17,3 @@ def get_date(data_full: Union[str]) -> str:
     date = data_full[8:10] + "." + data_full[5:7] + "." + data_full[:4]
 
     return date
-
-
-

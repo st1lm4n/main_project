@@ -18,9 +18,17 @@ def get_mask_card_number(card_number: Union[int, str]) -> Union[str]:
     if counter != 16:
         raise ValueError("Номер карты должен состоять из 16 цифр")
 
-    masked_number = unmask_number[0:-17] + " " + unmask_number[-16:-12] + " " + unmask_number[-12:-10] + "** ****" + " " + unmask_number[-4:]
+    masked_number = (
+        unmask_number[0:-17]
+        + " "
+        + unmask_number[-16:-12]
+        + " "
+        + unmask_number[-12:-10]
+        + "** ****"
+        + " "
+        + unmask_number[-4:]
+    )
     return masked_number
-
 
 
 def get_mask_account(card_number: Union[int, str]) -> Union[str]:
@@ -39,4 +47,3 @@ def get_mask_account(card_number: Union[int, str]) -> Union[str]:
 
     masked_account = unmask_account[:4] + " " + "**" + unmask_account[-4:]
     return masked_account
-

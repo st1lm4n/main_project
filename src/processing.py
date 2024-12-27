@@ -1,7 +1,5 @@
 from typing import Union
 
-from tests.conftest import my_dict
-
 
 def filter_by_state(list_dict: list[dict], state: str = "CANCELED") -> list[dict]:
     """Функция возвращает новый список словарей, содержащий только те словари, у которых ключ state
@@ -23,4 +21,3 @@ def filter_by_date(
     sorted_list = sorted(list_dict, key=lambda x: x["date"], reverse=revers_)
 
     return sorted_list
-
