@@ -1,4 +1,3 @@
-from email.generator import Generator
 from typing import Iterator, Union
 
 
@@ -14,12 +13,15 @@ def filter_by_currency(lst: list[dict], key: str) -> Union[Iterator[dict], str]:
     for transaction in lst:
         if transaction["operationAmount"]["currency"]["code"] == key:
             yield transaction
+        else:
+            return iter([])
+
     return iter([])
 
 
 # usd_transactions = filter_by_currency(transactions, "USD")
 # for _ in range(2):
-# print(next(usd_transactions))
+#    print(next(usd_transactions))
 
 
 def transaction_descriptions(lst: list[dict]) -> Iterator:
@@ -42,12 +44,12 @@ def card_number_generator(
     """Генератор, который выдает номера банковских карт в формате XXXX XXXX XXXX XXXX"""
 
     for number in range(start, stop):
-        number_ = str(number)
-        while len(number_) < 16:
-            number_ = "0" + number_
-        formated_card_number = f"{number_[:4]} {number_[4:8]} {number_[8:12]} {number_[12:16]}"
+        number_card = str(number)
+        while len(number_card) < 16:
+            number_card = "0" + number_card
+        formated_card_number = f"{number_card[:4]} {number_card[4:8]} {number_card[8:12]} {number_card[12:16]}"
         yield formated_card_number
 
 
-# for card_number in card_number_generator(1, 5):
-#   print(card_number)
+for card_number in card_number_generator(1, 5):
+    print(card_number)
