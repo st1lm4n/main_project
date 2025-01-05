@@ -3,11 +3,11 @@ from typing import Iterator, Union
 
 def filter_by_currency(lst: list[dict], key: str) -> Union[Iterator[dict], str]:
     """
-    Функция которая принимает на вход список словарей и возвращает итератор,
-    который поочерёдно выдает транзакции, где валюта соответствует заданной
+    Функция, которая принимает на вход список словарей и возвращает итератор
+    поочерёдно выдающий транзакции, где валюта соответствует заданной
     """
 
-    if lst == []:
+    if not lst:
         return iter([])
 
     for transaction in lst:
@@ -15,8 +15,6 @@ def filter_by_currency(lst: list[dict], key: str) -> Union[Iterator[dict], str]:
             yield transaction
         else:
             return iter([])
-
-    return iter([])
 
 
 # usd_transactions = filter_by_currency(transactions, "USD")
