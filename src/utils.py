@@ -1,14 +1,14 @@
 import json
 from json import JSONDecodeError
 
-from external_api import currency_conversion
+from src.external_api import currency_conversion
 
 
 def transactions(path):
     """Функция принимает путь JSON-файла и возвращает список словарей с данными о транзакциях"""
 
     try:
-        with open(path, encoding='utf-8') as f:
+        with open(path, encoding="utf-8") as f:
             try:
                 data_json = json.load(f)
             except JSONDecodeError:
@@ -27,7 +27,7 @@ def transaction_amount(transaction, currency="RUB"):
         amount = transaction["operationAmount"]["amount"]
     else:
         amount = currency_conversion(transaction)
-    return f"{amount} руб"
+    return amount
 
 
 if __name__ == "__main__":
