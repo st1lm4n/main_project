@@ -18,4 +18,4 @@ def currency_conversion(transaction):
         response = requests.request("GET", url, headers=headers, data=payload)
 
         result = response.json()
-        return f"{round(result["result"], 2)}"
+        return round(result["result"], 2)
