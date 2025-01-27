@@ -23,7 +23,7 @@ def test_log_():
 
 
 def test_log_file():
-    @log(filename="logs/log.txt")
+    @log(filename="tests/logs/log.txt")
     def my_func(x, y):
         return x / y
 

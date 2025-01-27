@@ -1,12 +1,15 @@
 import json
 import logging
+import os
 from json import JSONDecodeError
 
 from src.external_api import currency_conversion
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+logs_path = os.path.join(dir_path, "..", "logs", "mask.log")
 logger = logging.getLogger("utils")
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler("logs/utils.log", "w", encoding="utf-8")
+file_handler = logging.FileHandler("tests/logs/utils.log", "w", encoding="utf-8")
 file_formater = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formater)
 logger.addHandler(file_handler)
