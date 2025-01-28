@@ -8,6 +8,7 @@ packages = [{ include = "9" }]
 
 [tool.poetry.dependencies]
 python = "^3.13"
+pandas = "^2.2.3"
 
 
 [tool.poetry.group.lint.dependencies]
@@ -23,6 +24,7 @@ black = "^24.10.0"
 isort = "^5.13.2"
 mypy = "^1.13.0"
 pytest-cov = "^6.0.0"
+pandas = "^2.2.3"
 
 [tool.mypy]
 disallow_untyped_defs = true
