@@ -49,7 +49,7 @@ def transaction_amount(transaction, currency="RUB"):
 
 
 if __name__ == "__main__":
-    path = "..//data/operations.json"
+    path = "../data/operations.json"
     print(transactions(path))
     data = transactions(path)
     transaction_amount(data[0], "RUB")
