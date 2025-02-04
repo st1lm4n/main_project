@@ -1,6 +1,9 @@
+import unittest
+
 import pytest
 
-from src.processing import filter_by_date, filter_by_state
+from src.processing import (count_operations_by_category, filter_by_date, filter_by_state,
+                            filter_operations_by_description)
 
 
 def test_filter_by_state(my_dict: list[dict], value_key: str = "EXECUTED") -> None:
@@ -72,3 +75,28 @@ def test_filter_by_date_same(same_my_dict):
         {"id": 594226727, "state": "CANCELED", "date": "2019-07-03T18:35:29.512364"},
         {"id": 615064591, "state": "CANCELED", "date": "2019-07-03T18:35:29.512364"},
     ]
+
+
+class TestDataProcessing(unittest.TestCase):
+    def setUp(self):
+        self.operations = [
+            {"description": "Покупка в магазине", "amount": 100},
+            {"description": "Перевод другу", "amount": 200},
+            {"description": "Оплата услуг", "amount": 300},
+        ]
+
+    def test_filter_operations_by_description(self):
+        filtered = filter_operations_by_description(self.operations, "Перевод")
+        self.assertEqual(len(filtered), 1)
+        self.assertEqual(filtered[0]["description"], "Перевод другу")
+
+    def test_count_operations_by_category(self):
+        categories = ["Покупка в магазине", "Оплата услуг"]
+        counts = count_operations_by_category(self.operations, categories)
+        self.assertEqual(counts["Покупка в магазине"], 1)
+        self.assertEqual(counts["Оплата услуг"], 1)
+        self.assertNotIn("Перевод другу", counts)
+
+
+if __name__ == "__main__":
+    unittest.main()
