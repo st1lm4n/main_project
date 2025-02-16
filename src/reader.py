@@ -1,46 +1,30 @@
 import csv
+import json
+from typing import Any, Dict, List
 
-import pandas as pd
-
-
-def read_transact_excel(dir_transact):
-    """
-    Функция для считывания транзакций из Excel
-    """
-    excel_data = pd.read_excel("..//data/transactions_excel.xlsx")
-    excel_data_dict = excel_data.to_dict(orient="records")
-    return excel_data_dict
+from openpyxl import load_workbook
 
 
-# print(read_transact_excel("..//data/transactions_excel.xlsx"))
+def read_json(file_path: str) -> List[Dict[str, Any]]:
+    """Читает JSON-файл с транзакциями."""
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
-def read_transact_csv(dir_transaction):
-    """
-    Функция для считывания транзакций из CSV
-    """
-    result_dict = []
-
-    with open(dir_transaction, encoding="utf-8") as file:
-        reader = csv.DictReader(file, delimiter=";")
-        for row in reader:
-            result_dict.append(
-                {
-                    "id": row["id"],
-                    "state": row["state"],
-                    "date": row["date"],
-                    "amount": row["amount"],
-                    "currency_name": row["currency_name"],
-                    "currency_code": row["currency_code"],
-                    "from": row["from"],
-                    "to": row["to"],
-                    "description": row["description"],
-                }
-            )
-    return result_dict
+def read_csv(file_path: str) -> List[Dict[str, Any]]:
+    """Читает CSV-файл с транзакциями."""
+    with open(file_path, "r", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
 
 
-print(read_transact_csv("data/test_transaction.csv"))
+def read_xlsx(file_path: str) -> List[Dict[str, Any]]:
+    """Читает XLSX-файл с транзакциями."""
+    wb = load_workbook(file_path)
+    sheet = wb.active
+    headers = [cell.value for cell in sheet[1]]
+    return [{headers[i]: cell.value for i, cell in enumerate(row)} for row in sheet.iter_rows(min_row=2)]
 
 
-# read_transact_exel("..//data/transactions_excel.xlsx")
+# print(read_csv('transactions.csv'))
+# read_json('../data/operations.json')
+# print(read_xlsx('..//data/transactions_excel.xlsx'))

@@ -1,34 +1,54 @@
-from unittest.mock import mock_open, patch
+import os
+import unittest
 
-import pandas as pd
-
-from src.reader import read_transact_csv, read_transact_excel
-
-
-@patch("src.reader.pd.read_excel")
-def test_read_transact_excel(mock_transact_excel):
-    mock_transact_excel.return_value = pd.DataFrame(
-        [{"id": 441945886, "state": "EXECUTED", "date": "2019-08-26T10:50:58.294041"}]
-    )
-    assert read_transact_excel("dir_transactions") == [
-        {"id": 441945886, "state": "EXECUTED", "date": "2019-08-26T10:50:58.294041"}
-    ]
+from src.reader import read_csv, read_json, read_xlsx
 
 
-def test_read_transact_csv():
-    mock_data = "id;state;date;amount;currency_name;currency_code;from;to;description\n1;2;3;4;5;6;7;8;9\n"
-    with patch("builtins.open", mock_open(read_data=mock_data)) as mock_file:
-        res = read_transact_csv("fake")
-        assert res == [
-            {
-                "id": "1",
-                "state": "2",
-                "date": "3",
-                "amount": "4",
-                "currency_name": "5",
-                "currency_code": "6",
-                "from": "7",
-                "to": "8",
-                "description": "9",
-            }
-        ]
+class TestReader(unittest.TestCase):
+    def setUp(self):
+        # Создаем тестовые файлы
+        self.json_file = "test_transactions.json"
+        self.csv_file = "test_transactions.csv"
+        self.xlsx_file = "test_transactions.xlsx"
+
+        # JSON
+        with open(self.json_file, "w", encoding="utf-8") as f:
+            f.write('[{"date": "01.01.2023", "description": "Test", "amount": 100}]')
+
+        # CSV
+        with open(self.csv_file, "w", encoding="utf-8") as f:
+            f.write("date,description,amount\n01.01.2023,Test,100")
+
+        # XLSX
+        from openpyxl import Workbook
+
+        wb = Workbook()
+        ws = wb.active
+        ws.append(["date", "description", "amount"])
+        ws.append(["01.01.2023", "Test", 100])
+        wb.save(self.xlsx_file)
+
+    def tearDown(self):
+        # Удаляем тестовые файлы
+        os.remove(self.json_file)
+        os.remove(self.csv_file)
+        os.remove(self.xlsx_file)
+
+    def test_read_json(self):
+        data = read_json(self.json_file)
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["description"], "Test")
+
+    def test_read_csv(self):
+        data = read_csv(self.csv_file)
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["description"], "Test")
+
+    def test_read_xlsx(self):
+        data = read_xlsx(self.xlsx_file)
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["description"], "Test")
+
+
+if __name__ == "__main__":
+    unittest.main()
